@@ -1,4 +1,5 @@
 using Application.DTOs;
+using Application.Report;
 using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
@@ -49,5 +50,18 @@ public class ReportRepository : IReportRepository
 
         return reports;
     }
+
+  
+
+  
     
+    public async Task AddAsync(ReportDetails reportDetails)
+    {
+        await _context.ReportDetails.AddAsync(reportDetails);
+    }
+
+    public async Task UpdateAsync(Report report)
+    {
+        _context.Reports.Update(report); 
+    }
 }

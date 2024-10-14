@@ -11,6 +11,7 @@ namespace Infrastructure;
     {
         private readonly IConnection _connection;
         private readonly IModel _channel;
+        
 
         public RabbitMQMessageQueueService()
         {

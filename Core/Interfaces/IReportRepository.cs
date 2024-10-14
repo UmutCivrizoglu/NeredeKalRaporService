@@ -1,5 +1,4 @@
 using Core.Entities;
-
 namespace Core.Interfaces;
 
 public interface IReportRepository
@@ -9,4 +8,6 @@ public interface IReportRepository
     Task<List<Report>> GetAllReportsAsync();  
     Task SaveChangesAsync();
     Task<object?> GetReportsAsync();
+    Task AddAsync(ReportDetails reportDetails);
+    Task UpdateAsync(Report report);
 }

@@ -1,4 +1,5 @@
 using Application.DTOs;
+using Application.Report;
 using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -9,13 +10,15 @@ namespace NerdeKalRaporService.Controllers;
 [Route("api/[controller]")]
 public class ReportController : ControllerBase
 {
-    private readonly IMessageQueueService _messageQueueService;
+    
     private readonly IReportRepository _reportRepository;
+    private readonly ReportProducer _reportProducer;
 
-    public ReportController(IMessageQueueService messageQueueService, IReportRepository reportRepository)
+    public ReportController( IReportRepository reportRepository,ReportProducer reportProducer)
     {
-        _messageQueueService = messageQueueService;
+       
         _reportRepository = reportRepository;
+        _reportProducer = reportProducer;
     }
 
     [HttpPost("create")]
@@ -31,7 +34,7 @@ public class ReportController : ControllerBase
         };
         
         await _reportRepository.AddReportAsync(report);
-        _messageQueueService.PublishReportRequest(report.Id, report.Location);
+        await _reportProducer.PublishMessage(new ReportRequest(){ReportId = report.Id, City = request.Location});
 
         return Ok(new { reportId = report.Id, message = "Rapor talebi kuyruğa eklendi." });
     }
@@ -41,4 +44,5 @@ public class ReportController : ControllerBase
         var reports = await _reportRepository.GetReportsAsync();
         return Ok(reports);
     }
+   
 }
