@@ -29,7 +29,7 @@ builder.Services.AddMassTransit(x =>
             h.Password("guest");
         });
 
-        cfg.ReceiveEndpoint("ReportRequest", e =>
+        cfg.ReceiveEndpoint("ReportDetailRequest", e =>
         {
             e.ConfigureConsumer<ReportConsumer>(context);
            
