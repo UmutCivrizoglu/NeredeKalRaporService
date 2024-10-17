@@ -1,3 +1,4 @@
+using Application.DTOs;
 using Core.Entities;
 namespace Core.Interfaces;
 
@@ -10,4 +11,6 @@ public interface IReportRepository
     Task<object?> GetReportsAsync();
     Task AddAsync(ReportDetails reportDetails);
     Task UpdateAsync(Report report);
+    Task<ReportDetailsDto> GetReportResultByIdAsync
+        (Guid reportId);
 }

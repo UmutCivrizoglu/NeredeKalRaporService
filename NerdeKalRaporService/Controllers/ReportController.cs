@@ -44,5 +44,17 @@ public class ReportController : ControllerBase
         var reports = await _reportRepository.GetReportsAsync();
         return Ok(reports);
     }
+    [HttpGet("GetReportDetailsById/{reportId}")]
+    public async Task<IActionResult> GetReportResultByIdAsync(Guid reportId)
+    {
+        var reportDto = await _reportRepository.GetReportResultByIdAsync(reportId); 
+
+        if (reportDto == null)
+        {
+            return NotFound(); 
+        }
+
+        return Ok(reportDto);
+    }
    
 }

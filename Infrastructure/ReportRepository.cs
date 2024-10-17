@@ -64,4 +64,32 @@ public class ReportRepository : IReportRepository
     {
         _context.Reports.Update(report); 
     }
+    public async Task<ReportDetailsDto> GetReportResultByIdAsync(Guid reportId)
+    {
+  
+        var reportDetail = await _context.ReportDetails
+            .Include(rd => rd.Report)
+            .FirstOrDefaultAsync(rd => rd.Id == reportId); 
+        
+        if (reportDetail == null)
+        {
+            return null; 
+        }
+        if (reportDetail.Report.Status != "Done")
+        { 
+     
+            throw new InvalidOperationException("Rapor henüz tamamlanmadı");
+        }
+        var reportDto = new ReportDetailsDto
+        {
+           // Id = reportDetail.Id,
+            ReportId = reportDetail.Report.Id, 
+            HotelCount = reportDetail.HotelCount,
+            Location = reportDetail.Location,
+            PhoneNumberCount = reportDetail.PhoneNumberCount,
+            Status = reportDetail.Report.Status 
+        };
+
+        return reportDto; 
+    }
 }
